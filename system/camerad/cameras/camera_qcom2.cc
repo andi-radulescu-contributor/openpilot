@@ -27,9 +27,13 @@
 
 extern ExitHandler do_exit;
 
-const size_t FRAME_WIDTH = 1928;
+/*const size_t FRAME_WIDTH = 1928;
 const size_t FRAME_HEIGHT = 1208;
-const size_t FRAME_STRIDE = 2896;  // for 12 bit output. 1928 * 12 / 8 + 4 (alignment)
+const size_t FRAME_STRIDE = 2896;  // for 12 bit output. 1928 * 12 / 8 + 4 (alignment)*/
+
+const size_t FRAME_WIDTH = 0xa80;
+const size_t FRAME_HEIGHT = 0x5f0;
+const size_t FRAME_STRIDE = 0xfc0;  // for 12 bit output. 1928 * 12 / 8 + 4 (alignment)
 
 const size_t AR0231_REGISTERS_HEIGHT = 2;
 // TODO: this extra height is universal and doesn't apply per camera
@@ -55,9 +59,10 @@ CameraInfo cameras_supported[CAMERA_ID_MAX] = {
     .extra_height = 16, // this right?
   },
   [CAMERA_ID_OS04C10] = {
-    .frame_width = FRAME_WIDTH,
-    .frame_height = FRAME_HEIGHT,
-    .frame_stride = FRAME_STRIDE,
+    .frame_width = 0xa80,
+    .frame_height = 0x5f0,
+    .frame_stride = 0xfc0, // (0xa80*12//8)
+    //.frame_stride = 0xfc0, // (0xa80*12//8)
 
     .bayer = true,
     .bayer_flip = 1,
@@ -698,10 +703,13 @@ void CameraState::camera_open() {
   uint32_t dt;
   if (camera_id == CAMERA_ID_AR0231) {
     sensors_i2c(init_array_ar0231, std::size(init_array_ar0231), CAM_SENSOR_PACKET_OPCODE_SENSOR_CONFIG, true);
+    dt = 0x12;  // Changing stats to 0x2C doesn't work, so change pixels to 0x12 instead
   } else if (camera_id == CAMERA_ID_IMX390) {
     sensors_i2c(init_array_imx390, std::size(init_array_imx390), CAM_SENSOR_PACKET_OPCODE_SENSOR_CONFIG, false);
+    dt = 0x2c;
   } else if (camera_id == CAMERA_ID_OS04C10) {
     sensors_i2c(init_array_os04c10, std::size(init_array_os04c10), CAM_SENSOR_PACKET_OPCODE_SENSOR_CONFIG, false);
+    dt = 0x2a;
   } else {
     assert(false);
   }
