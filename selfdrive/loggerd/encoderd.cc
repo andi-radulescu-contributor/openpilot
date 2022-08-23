@@ -67,7 +67,6 @@ void encoder_thread(EncoderdState *s, const LogCameraInfo &cam_info) {
         }
       } else {
         LOGE("not initting empty encoder");
-        s->max_waiting--;
         break;
       }
     }
