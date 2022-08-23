@@ -50,6 +50,7 @@ const size_t FRAME_STRIDE = 640*10/8; // for 10 bit output*/
 //const size_t FRAME_STRIDE = 0xfc0;  // for 12 bit output
 
 const size_t AR0231_REGISTERS_HEIGHT = 2;
+
 // TODO: this extra height is universal and doesn't apply per camera
 const size_t AR0231_STATS_HEIGHT = 2+8;
 
@@ -76,6 +77,7 @@ CameraInfo cameras_supported[CAMERA_ID_MAX] = {
     .frame_width = FRAME_WIDTH,
     .frame_height = FRAME_HEIGHT,
     .frame_stride = FRAME_STRIDE, // (0xa80*12//8)
+    .extra_height = 16, // this right?
     //.frame_stride = 0xfc0, // (0xa80*12//8)
 
     /*.bayer = true,
