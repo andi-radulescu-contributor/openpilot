@@ -61,8 +61,12 @@ float4 val4_from_12(uchar8 pvs, float gain) {
                          ((uint)pvs.s3<<4) + (pvs.s4>>4),
                          ((uint)pvs.s5<<4) + (pvs.s7&0xF));
   // PWL
-  //float4 pv = (convert_float4(parsed) - 64.0) / (4096.0 - 64.0);
-    float4 pv = {lut[parsed.s0], lut[parsed.s1], lut[parsed.s2], lut[parsed.s3]};
+  float4 pv = (convert_float4(parsed) - 64.0) / (4096.0 - 64.0);
+
+  // normalize and scale
+  //float4 pv = (convert_float4(parsed) - 168.0) / (4096.0 - 168.0);
+  return clamp(pv*gain, 0.0, 1.0);
+}
 
     // it's a 24 bit signal, center in the middle 8 bits
     return pv*256.0;
