@@ -77,9 +77,9 @@ CameraInfo cameras_supported[CAMERA_ID_MAX] = {
     .frame_stride = FRAME_STRIDE, // (0xa80*12//8)
     //.frame_stride = 0xfc0, // (0xa80*12//8)
 
-    .bayer = true,
+    /*.bayer = true,
     .bayer_flip = 1,
-    .hdr = false,
+    .hdr = false,*/
   },
 };
 
@@ -368,7 +368,7 @@ int CameraState::sensors_init() {
     probe->expected_data = 0x1538;
   } else if (camera_id == CAMERA_ID_OS04C10) {
     probe->reg_addr = 0x300a;
-    probe->expected_data = 0x5304;
+    probe->expected_data = 0x5803;
   } else {
     assert(false);
   }
