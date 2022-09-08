@@ -1197,13 +1197,23 @@ void CameraState::set_camera_exposure(float grey_frac) {
                                                   };
     sensors_i2c(exp_reg_array, sizeof(exp_reg_array)/sizeof(struct i2c_random_wr_payload), CAM_SENSOR_PACKET_OPCODE_SENSOR_CONFIG, true);
   } else if (camera_id == CAMERA_ID_OX03C10) {
-    //printf("exposure time %d gain %f\n", exposure_time, gain);
-    uint32_t real_exposure_time = exposure_time;
+    // t_HCG + t_LCG + t_VS on LPD, t_SPD on SPD
+    uint32_t hcg_time = exposure_time;
+    uint32_t lcg_time = 8 * hcg_time;
+    uint32_t spd_time = hcg_time / 2;
+    uint32_t vs_time = std::min(hcg_time / 4, VS_TIME_MAX);
+
     uint32_t real_gain = gain*0x100;
     struct i2c_random_wr_payload exp_reg_array[] = {
-      {0x3501, real_exposure_time>>8}, {0x3502, real_exposure_time&0xFF},
-      {0x3541, real_exposure_time>>8}, {0x3542, real_exposure_time&0xFF},
+
+      {0x3501, hcg_time>>8}, {0x3502, hcg_time&0xFF},
+      {0x3541, spd_time>>8}, {0x3542, spd_time&0xFF},
+      {0x3581, lcg_time>>8}, {0x3582, lcg_time&0xFF},
+      {0x35c1, vs_time>>8}, {0x35c2, vs_time&0xFF},
+
       {0x3508, real_gain>>8}, {0x3509, real_gain&0xFF},
+      {0x3588, real_gain>>8}, {0x3509, real_gain&0xFF},
+      {0x35c8, real_gain>>8}, {0x35c9, real_gain&0xFF},
       {0x3548, real_gain>>8}, {0x3549, real_gain&0xFF},
     };
     sensors_i2c(exp_reg_array, sizeof(exp_reg_array)/sizeof(struct i2c_random_wr_payload), CAM_SENSOR_PACKET_OPCODE_SENSOR_CONFIG, false);
