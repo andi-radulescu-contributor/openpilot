@@ -3,7 +3,6 @@ import re
 import traceback
 
 import cereal.messaging as messaging
-import panda.python.uds as uds
 from selfdrive.car.isotp_parallel_query import IsoTpParallelQuery
 from selfdrive.car.fw_query_definitions import StdQueries
 from system.swaglog import cloudlog
