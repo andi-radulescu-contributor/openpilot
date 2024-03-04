@@ -471,7 +471,7 @@ class CAR(Platforms):
     "KIA OPTIMA HYBRID 4TH GEN FACELIFT",
     HyundaiCarInfo("Kia Optima Hybrid 2019", car_parts=CarParts.common([CarHarness.hyundai_h])),
     CarSpecs(mass=3558 * CV.LB_TO_KG, wheelbase=2.8, steerRatio=13.75, tireStiffnessFactor=0.5),
-    flags=HyundaiFlags.HYBRID | HyundaiFlags.UNSUPPORTED_LONGITUDINAL,
+    flags=HyundaiFlags.HYBRID,
   )
   KIA_SELTOS = HyundaiPlatformConfig(
     "KIA SELTOS 2021",
@@ -838,8 +838,7 @@ EV_CAR = CAR.with_flags(HyundaiFlags.EV)
 
 LEGACY_SAFETY_MODE_CAR = CAR.with_flags(HyundaiFlags.LEGACY)
 
-# these cars have not been verified to work with longitudinal yet - radar disable, sending correct messages, etc.
-UNSUPPORTED_LONGITUDINAL_CAR = LEGACY_SAFETY_MODE_CAR | {CAR.KIA_NIRO_PHEV, CAR.KIA_SORENTO, CAR.SONATA_LF, CAR.KIA_OPTIMA_H_G4_FL}
+UNSUPPORTED_LONGITUDINAL_CAR = CAR.with_flags(HyundaiFlags.LEGACY) | CAR.with_flags(HyundaiFlags.UNSUPPORTED_LONGITUDINAL)
 
 CAR_INFO = CAR.create_carinfo_map()
 DBC = CAR.create_dbc_map()
