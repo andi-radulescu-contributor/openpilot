@@ -1,4 +1,4 @@
-[![](https://i.imgur.com/UetIFyH.jpg)](#)
+[![](https://i.imgur.com/UelUjKAh.png)](#)
 
 Table of Contents
 =======================
@@ -242,7 +242,7 @@ Safety and Testing
 Testing on PC
 ------
 
-Check out [openpilot-tools](https://github.com/commaai/openpilot-tools): lots of tools you can use to replay driving data, test and develop openpilot from your pc.
+Check out the tools directory in master: lots of tools you can use to replay driving data, test and develop openpilot from your pc.
 
 Community and Contributing
 ------
